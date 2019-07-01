@@ -1,18 +1,22 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Set;
+
 /**
  * @author Siarhei Sviarkaltsau
  */
-
-
-import java.util.Set;
 
 public class SolutionTest {
 
     private final Solution solution = new Solution();
 
     private boolean replaceBracesWithParenthesises;
+
+    @Test
+    public void testForDebug() {
+        test("{}x}x", "{}xx, {x}x");
+    }
 
     @Test
     public void test() {
