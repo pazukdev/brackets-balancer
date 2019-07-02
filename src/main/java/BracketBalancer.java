@@ -15,10 +15,10 @@ public class BracketBalancer {
      * wrapper method just for match concrete test task from company
      */
     public Set<String> validate(final String input) {
-        return new HashSet<>(removeInvalidParentheses(input));
+        return new HashSet<>(removeInvalidBrackets(input));
     }
 
-    public List<String> removeInvalidParentheses(final String input) {
+    public List<String> removeInvalidBrackets(final String input) {
         final List<String> balancedCombinations = new ArrayList<>();
         if (input == null) {
             return balancedCombinations;

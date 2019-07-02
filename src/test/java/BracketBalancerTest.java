@@ -41,7 +41,7 @@ public class BracketBalancerTest {
     }
 
     private void test(final String input, final String expectedOutput) {
-        final String actualOutput = setToCustomString(bracketBalancer.removeInvalidParentheses(input));
+        final String actualOutput = setToCustomString(bracketBalancer.removeInvalidBrackets(input));
         Assert.assertEquals(null, expectedOutput, actualOutput);
     }
 
