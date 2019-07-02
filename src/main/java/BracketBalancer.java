@@ -1,10 +1,15 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 /**
  * @author Siarhei Sviarkaltsau
  */
 
-public class Solution {
+public class BracketBalancer {
 
     /**
      * wrapper method just for match concrete test task from company
@@ -62,20 +67,50 @@ public class Solution {
     }
 
     private boolean isBracket(final String s, final int charIndex) {
-        return s.charAt(charIndex) == '(' || s.charAt(charIndex) == ')';
+        return BracketUtil.isBracket(s.charAt(charIndex));
     }
 
     private boolean isBalanced(String s) {
         int balance = 0;
         for (char c : s.toCharArray()) {
-            if (c == '(') {
+            if (BracketUtil.isOpenBracket(c)) {
                 balance++;
             }
-            if (c == ')' && --balance < 0) {
+            if (BracketUtil.isCloseBracket(c) && --balance < 0) {
                 return false;
             }
         }
         return balance == 0;
+    }
+
+    private static final class BracketUtil {
+        private static final char[][] BRACKETS = {{'(', ')'}, {'{', '}'}, {'[', ']'}};
+
+        private static boolean isOpenBracket(final char c) {
+            for (final char[] tokens : BRACKETS) {
+                if (tokens[0] == c) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static boolean isCloseBracket(final char c) {
+            return isBracket(c) && !isOpenBracket(c);
+        }
+
+        private static boolean isBracket(final char c) {
+            for (final char[] tokens : BRACKETS) {
+                for (final char token : tokens) {
+                    if (token == c) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 
 }
