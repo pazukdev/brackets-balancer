@@ -15,7 +15,7 @@ public class SolutionTest {
 
     @Test
     public void testForDebug() {
-        test("{}x}x", "{}xx, {x}x");
+        test("()x)", "()x, (x)");
     }
 
     @Test
@@ -29,6 +29,7 @@ public class SolutionTest {
         test(")()", "()");
         test("()(", "()");
         test("())", "()");
+        test("()(()", "()()");
         test("(()x", "()x");
         test(")x()", "x()");
         test("(x)(", "(x)");
@@ -38,6 +39,7 @@ public class SolutionTest {
         test("{}}{}}", "{}{}, {{}}");
         test("{}x}x", "{}xx, {x}x");
         test("{", "");
+        test("{{}}}{x}{}}", "{{}{x}{}}, {{}}{x{}}, {{}}{x}{}");
     }
 
     private void test(final String input, final String expectedOutput) {

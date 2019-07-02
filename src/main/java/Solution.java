@@ -1,5 +1,4 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Siarhei Sviarkaltsau
@@ -7,70 +6,104 @@ import java.util.Set;
 
 public class Solution {
 
-    private Set<String> validExpressions = new HashSet<>();
-    private int minimumRemoved;
-
-    public Set<String> validate(String input) {
-        return removeInvalidParentheses(input);
+    /**
+     * wrapper method just for match concrete test task from company
+     */
+    public Set<String> validate(final String input) {
+        return new HashSet<>(removeInvalidParentheses(input));
     }
 
-    private Set<String> removeInvalidParentheses(String input) {
-        int index = 0;
-        int leftCount = 0;
-        int rightCount = 0;
-        StringBuilder expression = new StringBuilder();
-        int removedCount = 0;
+    public List<String> removeInvalidParentheses(final String input) {
+        final List<String> balancedCombinations = new ArrayList<>();
+        if (input == null) {
+            return balancedCombinations;
+        }
 
-        reset();
-        recurse(input, index, leftCount, rightCount, expression, removedCount);
-        return validExpressions;
-    }
+        String s = input;
+        final Set<String> visited = new HashSet<>();
+        final Queue<String> queue = new LinkedList<>();
+        queue.add(s);
+        visited.add(s);
 
-    private void reset() {
-        validExpressions.clear();
-        minimumRemoved = Integer.MAX_VALUE;
-    }
+        boolean balancedCombinationFound = false;
 
-    private void recurse(
-            String s,
-            int index,
-            int leftCount,
-            int rightCount,
-            StringBuilder expression,
-            int removedCount) {
+        while (!queue.isEmpty()) {
 
-        if (index == s.length()) {
-            if (leftCount == rightCount) {
-                if (removedCount <= this.minimumRemoved) {
-                    String possibleAnswer = expression.toString();
-                    if (removedCount < this.minimumRemoved) {
-                        this.validExpressions.clear();
-                        this.minimumRemoved = removedCount;
-                    }
-                    this.validExpressions.add(possibleAnswer);
-                }
+            s = queue.poll();
+
+            if (isBalanced(s)) {
+                balancedCombinations.add(s);
+                balancedCombinationFound = true;
             }
-        } else {
-            char currentCharacter = s.charAt(index);
-            int length = expression.length();
 
-            if (currentCharacter != '(' && currentCharacter != ')') {
-                expression.append(currentCharacter);
-                this.recurse(s, index + 1, leftCount, rightCount, expression, removedCount);
-                expression.deleteCharAt(length);
-            } else {
-                this.recurse(s, index + 1, leftCount, rightCount, expression, removedCount + 1);
-                expression.append(currentCharacter);
+            if (!balancedCombinationFound) {
+                visitNodes(s, queue, visited);
+            }
+        }
 
-                if (currentCharacter == '(') {
-                    this.recurse(s, index + 1, leftCount + 1, rightCount, expression, removedCount);
-                } else if (rightCount < leftCount) {
-                    this.recurse(s, index + 1, leftCount, rightCount + 1, expression, removedCount);
+        return balancedCombinations;
+    }
+
+    private void visitNodes(final String s, final Queue<String> queue, final Set<String> visited) {
+        for (int i = 0; i < s.length(); i++) {
+            if (isBracket(s, i)) {
+                final String node = excludeCurrentChar(s, i);
+
+                if (!visited.contains(node)) {
+                    queue.add(node);
+                    visited.add(node);
                 }
-
-                expression.deleteCharAt(length);
             }
         }
     }
 
+    private String excludeCurrentChar(final String s, final int charIndex) {
+        return s.substring(0, charIndex) + s.substring(charIndex + 1);
+    }
+
+    private boolean isBracket(final String s, final int charIndex) {
+        return s.charAt(charIndex) == '(' || s.charAt(charIndex) == ')';
+    }
+
+    private boolean isBalanced(String s) {
+        int balance = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                balance++;
+            }
+            if (c == ')' && --balance < 0) {
+                return false;
+            }
+        }
+        return balance == 0;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
