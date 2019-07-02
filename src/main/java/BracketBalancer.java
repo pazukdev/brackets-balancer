@@ -67,50 +67,20 @@ public class BracketBalancer {
     }
 
     private boolean isBracket(final String s, final int charIndex) {
-        return BracketUtil.isBracket(s.charAt(charIndex));
+        return s.charAt(charIndex) == '(' || s.charAt(charIndex) == ')';
     }
 
     private boolean isBalanced(String s) {
         int balance = 0;
         for (char c : s.toCharArray()) {
-            if (BracketUtil.isOpenBracket(c)) {
+            if (c == '(') {
                 balance++;
             }
-            if (BracketUtil.isCloseBracket(c) && --balance < 0) {
+            if (c == ')' && --balance < 0) {
                 return false;
             }
         }
         return balance == 0;
-    }
-
-    private static final class BracketUtil {
-        private static final char[][] BRACKETS = {{'(', ')'}, {'{', '}'}, {'[', ']'}};
-
-        private static boolean isOpenBracket(final char c) {
-            for (final char[] tokens : BRACKETS) {
-                if (tokens[0] == c) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static boolean isCloseBracket(final char c) {
-            return isBracket(c) && !isOpenBracket(c);
-        }
-
-        private static boolean isBracket(final char c) {
-            for (final char[] tokens : BRACKETS) {
-                for (final char token : tokens) {
-                    if (token == c) {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
     }
 
 }

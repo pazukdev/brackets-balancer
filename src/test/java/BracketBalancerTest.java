@@ -34,10 +34,10 @@ public class BracketBalancerTest {
         test("()())()", "(())(), ()()()");
         test("(a)())()", "(a())(), (a)()()");
         test(")(", "");
-        test("{}}{}}", "{{}}, {}{}");
-        test("{}x}x", "{x}x, {}xx");
-        test("{", "");
-        test("{{}}}{x}{}}", "{{}{x}{}}, {{}}{x{}}, {{}}{x}{}");
+        test("())())", "(()), ()()");
+        test("()x)x", "(x)x, ()xx");
+        test("(", "");
+        test("(()))(x)())", "(()(x)()), (())(x()), (())(x)()");
     }
 
     private void test(final String input, final String expectedOutput) {
