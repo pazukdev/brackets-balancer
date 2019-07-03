@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Siarhei Sviarkaltsau
  */
 
-public class BracketBalancer {
+public class BracketsBalancer {
 
     /**
      * wrapper method just for match concrete test task from company
@@ -20,29 +20,28 @@ public class BracketBalancer {
 
     public List<String> removeInvalidBrackets(final String input) {
         final List<String> balancedCombinations = new ArrayList<>();
-        if (input == null) {
+        if (input == null || input.replaceAll(" ","").isEmpty()) {
             return balancedCombinations;
         }
 
-        String s = input;
         final Set<String> visited = new HashSet<>();
         final Queue<String> queue = new LinkedList<>();
-        queue.add(s);
-        visited.add(s);
+        String head = input;
+        queue.add(head);
+        visited.add(head);
 
         boolean balancedCombinationFound = false;
 
         while (!queue.isEmpty()) {
+            head = queue.poll();
 
-            s = queue.poll();
-
-            if (isBalanced(s)) {
-                balancedCombinations.add(s);
+            if (isBalanced(head)) {
+                balancedCombinations.add(head);
                 balancedCombinationFound = true;
             }
 
             if (!balancedCombinationFound) {
-                visitNodes(s, queue, visited);
+                visitNodes(head, queue, visited);
             }
         }
 
@@ -52,7 +51,7 @@ public class BracketBalancer {
     private void visitNodes(final String s, final Queue<String> queue, final Set<String> visited) {
         for (int i = 0; i < s.length(); i++) {
             if (isBracket(s, i)) {
-                final String node = excludeCurrentChar(s, i);
+                final String node = excludeCharFromString(s, i);
 
                 if (!visited.contains(node)) {
                     queue.add(node);
@@ -62,7 +61,7 @@ public class BracketBalancer {
         }
     }
 
-    private String excludeCurrentChar(final String s, final int charIndex) {
+    private String excludeCharFromString(final String s, final int charIndex) {
         return s.substring(0, charIndex) + s.substring(charIndex + 1);
     }
 
@@ -76,8 +75,12 @@ public class BracketBalancer {
             if (c == '(') {
                 balance++;
             }
-            if (c == ')' && --balance < 0) {
-                return false;
+            if (c == ')') {
+                balance--;
+
+                if (balance < 0) {
+                    return false;
+                }
             }
         }
         return balance == 0;

@@ -7,9 +7,9 @@ import java.util.List;
  * @author Siarhei Sviarkaltsau
  */
 
-public class BracketBalancerTest {
+public class BracketsBalancerTest {
 
-    private final BracketBalancer bracketBalancer = new BracketBalancer();
+    private final BracketsBalancer bracketsBalancer = new BracketsBalancer();
 
     @Test
     public void testForDebug() {
@@ -41,11 +41,12 @@ public class BracketBalancerTest {
     }
 
     private void test(final String input, final String expectedOutput) {
-        final String actualOutput = setToCustomString(bracketBalancer.removeInvalidBrackets(input));
-        Assert.assertEquals(null, expectedOutput, actualOutput);
+        final String message = null;
+        final String actualOutput = listToCustomString(bracketsBalancer.removeInvalidBrackets(input));
+        Assert.assertEquals(message, expectedOutput, actualOutput);
     }
 
-    private String setToCustomString(final List<String> strings) {
+    private String listToCustomString(final List<String> strings) {
         return strings.toString().replaceFirst("\\[", "").replaceFirst("]", "");
     }
 
