@@ -48,10 +48,10 @@ public class BracketsBalancer {
         return balancedCombinations;
     }
 
-    private void visitNodes(final String s, final Queue<String> queue, final Set<String> visited) {
-        for (int i = 0; i < s.length(); i++) {
-            if (isBracket(s, i)) {
-                final String node = excludeCharFromString(s, i);
+    private void visitNodes(final String head, final Queue<String> queue, final Set<String> visited) {
+        for (int i = 0; i < head.length(); i++) {
+            if (isBracket(head, i)) {
+                final String node = excludeCharFromString(head, i);
 
                 if (!visited.contains(node)) {
                     queue.add(node);
